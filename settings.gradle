@@ -1,0 +1,3 @@
+include ':AuthenticationModule'
+include ':app'
+rootProject.name = "AuthenticationLibrary"
