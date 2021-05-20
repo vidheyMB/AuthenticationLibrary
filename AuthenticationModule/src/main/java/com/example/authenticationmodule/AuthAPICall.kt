@@ -50,8 +50,8 @@ object AuthAPICall {
 
                     val token_data = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
                             .adapter(Token::class.java)
-//                            .fromJson(string)
-                            .fromJson(response.body.toString())
+                            .fromJson(string)
+//                            .fromJson(response.body.toString())
 
                     PreferenceHelperToken.setTokenDetails(context, token_data!!)
 
