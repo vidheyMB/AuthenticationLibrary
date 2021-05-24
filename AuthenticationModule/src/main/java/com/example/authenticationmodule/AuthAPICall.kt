@@ -47,7 +47,7 @@ object AuthAPICall {
                         .adapter(Token::class.java)
                         .fromJson(response.body?.source()?.buffer)
 
-//                PreferenceHelperToken.setTokenDetails(context, token_data!!)
+                PreferenceHelperToken.setTokenDetails(context, token_data!!)
 
                 token_data // return default
             }else {
