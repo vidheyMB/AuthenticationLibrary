@@ -13,17 +13,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val url = "http://demoserv2.arokiait.com/RDT/token"
-        val requestBody = "grant_type=password&UserName=partnerrewards&Password=Erfcl%25jhgh"
+        val url = "http://demoserv2.arokiait.com/WAVIN/token"
+        val requestBody = "grant_type=password&UserName=Wavin&Password=HFjf\$fgjhksdfl#g"
 
-        AuthAPICall.run(this, url, requestBody, object : PreferenceTokenCallBack {
-            override fun tokenDetails(token: Token?) {
-                Log.d(
-                    "TAG",
-                    "tokenDetails: ${PreferenceHelperToken.getTokenDetails(this@MainActivity)?.access_token}"
-                )
+       /* AuthAPICall.run(this, url, requestBody, object : PreferenceTokenCallBack {
+            override suspend fun tokenDetails(token: Token?) {
+                Log.d("TAG", "tokenDetails: ${PreferenceHelperToken.getTokenDetails(this@MainActivity)?.access_token}")
             }
-        })
+        })*/
 
     }
 }

@@ -11,14 +11,14 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 
 interface PreferenceTokenCallBack{
-    fun tokenDetails(token: Token?)
+   suspend fun tokenDetails(token: Token?)
 }
 
 object AuthAPICall {
 
     private val clients: OkHttpClient.Builder = OkHttpClient.Builder()
 
-    fun run(context: Context, url: String, requestBody: String, preferenceTokenCallBack: PreferenceTokenCallBack) {
+    suspend fun run(context: Context, url: String, requestBody: String, preferenceTokenCallBack: PreferenceTokenCallBack): String {
 
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BASIC
@@ -38,7 +38,26 @@ object AuthAPICall {
             .addHeader("cache-control", "no-cache")
             .build()
 
-        client.newCall(request).enqueue(object : Callback {
+        client.newCall(request).execute().use { response ->
+            return if(response.isSuccessful) {
+
+                val token_data = Moshi.Builder()
+                        .add(KotlinJsonAdapterFactory())
+                        .build()
+                        .adapter(Token::class.java)
+                        .fromJson(response.body?.source()?.buffer)
+
+                PreferenceHelperToken.setTokenDetails(context, token_data!!)
+
+                "" // return default
+            }else {
+                preferenceTokenCallBack.tokenDetails(null)
+
+                "" // return default
+            }
+        }
+
+        /*client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 Log.d("TAG", "onFailure: ${e.message}")
 
@@ -62,7 +81,7 @@ object AuthAPICall {
 
                 }
             }
-        })
+        })*/
 
     }
 
