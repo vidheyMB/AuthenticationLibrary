@@ -18,7 +18,7 @@ object AuthAPICall {
 
     private val clients: OkHttpClient.Builder = OkHttpClient.Builder()
 
-    suspend fun run(context: Context, url: String, requestBody: String, preferenceTokenCallBack: PreferenceTokenCallBack): String {
+    suspend fun run(context: Context, url: String, requestBody: String, preferenceTokenCallBack: PreferenceTokenCallBack): Token? {
 
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BASIC
@@ -49,11 +49,11 @@ object AuthAPICall {
 
                 PreferenceHelperToken.setTokenDetails(context, token_data!!)
 
-                "" // return default
+                token_data // return default
             }else {
                 preferenceTokenCallBack.tokenDetails(null)
 
-                "" // return default
+                null // return null
             }
         }
 
